@@ -1,0 +1,26 @@
+AC_INIT(configure.in)
+
+AM_CONFIG_HEADER(config.h)
+AM_INIT_AUTOMAKE(harps, 0.1.0)
+
+AC_LANG_CPLUSPLUS
+AC_PROG_CXX
+AM_PROG_LIBTOOL
+
+AC_DEFUN([AXF_POLYPHONY_COUNT], [
+  AC_ARG_WITH([samplecount],
+    [  --with-samplecount=n        Specify sample count to n [default=32]])
+  if test "x$with_samplecount" == "x"
+  then
+    with_samplecount=32
+  fi
+  AC_DEFINE_UNQUOTED([SAMPLE_COUNT], $with_samplecount,[sample count])
+])
+
+AXF_POLYPHONY_COUNT
+
+PKG_CHECK_MODULES(HARPS, harps)
+AC_SUBST(HARPS_CFLAGS)
+AC_SUBST(HARPS_LIBS)
+
+AC_OUTPUT(Makefile src/Makefile)
